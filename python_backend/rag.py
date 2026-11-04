@@ -41,6 +41,7 @@ class RetrievalAugmentedGeneration:
         chunks = text_splitter.split_documents(documents=docs)
 
         QdrantVectorStore.from_documents(
+            api_key=os.getenv("QDRANT_API_KEY"),
             documents=chunks,
             embedding=self.embeddings,
             url=os.getenv("QDRANT_DATABASE"),
@@ -55,6 +56,7 @@ class RetrievalAugmentedGeneration:
         
     def run(self, user_input):
         vector_store = QdrantVectorStore.from_existing_collection(
+            api_key=os.getenv("QDRANT_API_KEY"),
             collection_name=self.collection_name, 
             embedding=self.embeddings, 
             url=os.getenv("QDRANT_DATABASE"))
