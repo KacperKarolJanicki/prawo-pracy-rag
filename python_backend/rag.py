@@ -31,7 +31,7 @@ class RetrievalAugmentedGeneration:
         try:
             docs = loader.load()
         except:
-            print("[UPDATE MANAGER]: Plik uszkodzony. Odpalam backup.")
+            print("[UPDATE MANAGER]: Plik uszkodzony. Odpalam backup.", flush=True)
             backup = True
             self.pdf_path = Path(__file__).parent / "D19740141Lj_Backup.pdf"
             loader = PyPDFLoader(file_path=self.pdf_path)
@@ -49,9 +49,9 @@ class RetrievalAugmentedGeneration:
         )
 
         if backup:
-            print("[UPDATE MANAGER]: File loaded from bakcup.")
+            print("[UPDATE MANAGER]: File loaded from bakcup.", flush=True)
         else:
-            print("[UPDATE MANAGER]: File updated.")
+            print("[UPDATE MANAGER]: File updated.", flush=True)
         
     def run(self, user_input):
         vector_store = QdrantVectorStore.from_existing_collection(
