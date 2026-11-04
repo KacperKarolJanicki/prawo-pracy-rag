@@ -36,7 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final String welcomeText = 'Cześć Areczku :) \nJaki masz problem w swoim Januszexie?';
   String userInput = '';
   String debugHost = 'http://192.168.0.226:5000/labour_law';
-  String productionHost = 'http://192.168.0.226:5000/labour_law';
+  String productionHost = 'https://prawo-pracy-rag.onrender.com/labour_law';
 
   final TextEditingController textController = TextEditingController();
   final ScrollController scrollController = ScrollController();
