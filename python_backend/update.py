@@ -19,13 +19,18 @@ def update():
             change_date = datetime.fromisoformat(data["changeDate"])
 
             if last_change < change_date:
-                print("[UPDATE MANAGER]: Found changes! Download new file...", flush=True)
+                print(
+                    "[UPDATE MANAGER]: Found changes! Download new file...", flush=True
+                )
                 update_url = "https://isap.sejm.gov.pl/isap.nsf/download.xsp/WDU19740240141/U/D19740141Lj.pdf"
                 download_file = requests.get(
                     update_url,
                     headers={
-                        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-                        "Accept": "application/pdf",
+                        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+                        "Accept": "application/pdf,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+                        "Accept-Language": "pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7",
+                        "Accept-Encoding": "gzip, deflate",
+                        "Connection": "keep-alive",
                     },
                 )
                 with open("D19740141Lj.pdf", mode="wb") as file:
