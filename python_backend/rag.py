@@ -62,7 +62,7 @@ class RetrievalAugmentedGeneration:
             url=os.getenv("QDRANT_DATABASE"))
         
         llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.0)
-        retriever = vector_store.as_retriever(search_kwargs={"k": 200})
+        retriever = vector_store.as_retriever(search_kwargs={"k": 5})
         prompt = ChatPromptTemplate.from_template(self._load_prompt("prompt_1.txt"))
         
         rag_chain = ({"context": retriever, "question": RunnablePassthrough()} | prompt | llm)
