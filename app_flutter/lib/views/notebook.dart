@@ -10,16 +10,6 @@ class Notebook extends StatefulWidget {
 
 class _NotebookState extends State<Notebook> {
 
-  void loadNotes() async {
-    saved = await Memory().loadData();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    loadNotes();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

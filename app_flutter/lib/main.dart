@@ -6,6 +6,7 @@ import 'package:prawo_pracy/my_form.dart';
 import 'package:prawo_pracy/my_list.dart';
 import 'package:prawo_pracy/views/app_info.dart';
 import 'package:prawo_pracy/views/notebook.dart';
+import 'functions/memory.dart';
 
 TextEditingController? mainForm;
 
@@ -42,6 +43,16 @@ class _MyHomePageState extends State<MyHomePage> {
   final ScrollController scrollController = ScrollController();
 
   bool januszSaySomething = false;
+
+  void loadNotes() async {
+    saved = await Memory().loadData();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadNotes();
+  }
 
   @override
   void dispose() {
