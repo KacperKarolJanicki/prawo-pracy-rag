@@ -30,6 +30,6 @@ class Memory {
     if (newData != null) {
       data.add(newData);
     }
-    file.writeAsString(jsonEncode(data));
+    await file.writeAsString(jsonEncode(data));
   }
 }

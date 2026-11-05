@@ -10,17 +10,8 @@ class Notebook extends StatefulWidget {
 
 class _NotebookState extends State<Notebook> {
 
-  bool isLoading = false;
-
   void loadNotes() async {
-    setState(() {
-      isLoading = true;
-    });
-    saved = await Memory().loadData().whenComplete((){
-      setState(() {
-        isLoading = false;
-      });
-    });
+    saved = await Memory().loadData();
   }
 
   @override
