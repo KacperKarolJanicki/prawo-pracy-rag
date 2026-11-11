@@ -14,6 +14,9 @@ migrate_working_dir/
 key.properties
 klucz_aplikacji.jks
 README.md
+config.properties
+linux/
+macos/
 
 # IntelliJ related
 *.iml

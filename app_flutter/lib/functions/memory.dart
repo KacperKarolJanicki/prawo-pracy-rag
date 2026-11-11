@@ -1,10 +1,12 @@
 import 'dart:io';
 import 'dart:convert';
 import 'package:path_provider/path_provider.dart';
+import 'package:prawo_pracy/functions/attachments.dart';
 
 List<dynamic> saved = [];
+enum Photo {fromCamera, fromGallery}
 
-class Memory {
+class Memory extends Attachments {
 
   Future<String> _initialize() async {
     final directory = await getApplicationDocumentsDirectory();
@@ -31,5 +33,20 @@ class Memory {
       data.add(newData);
     }
     await file.writeAsString(jsonEncode(data));
+  }
+
+  Future<String> savePhoto(Photo location) async {
+
+    late File photo;
+    final directory = await getApplicationDocumentsDirectory();
+
+    if (location == Photo.fromCamera) {
+      photo = await fromCamera();
+    } else if (location == Photo.fromGallery) {
+      photo = await fromGallery();
+    }
+
+    File insideAppPhoto = await photo.copy('${directory.path}/photo${DateTime.now().millisecondsSinceEpoch}.jpg');
+    return insideAppPhoto.path;
   }
 }

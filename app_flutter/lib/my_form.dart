@@ -21,6 +21,9 @@ class MyForm extends StatelessWidget {
           SizedBox(
             width: MediaQuery.of(context).size.width / 1.6,
             child: TextField(
+              keyboardType: .multiline,
+              minLines: 1,
+              maxLines: 5,
               controller: controller,
               decoration: InputDecoration(
                 enabledBorder: OutlineInputBorder(
@@ -29,7 +32,7 @@ class MyForm extends StatelessWidget {
                 ),
                 focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.blue, width: 2),
-                    borderRadius: BorderRadius.circular(50),
+                    borderRadius: BorderRadius.circular(25),
                 ),
                 hintText: 'Zapytaj o coś...',
               ),
