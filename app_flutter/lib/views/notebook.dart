@@ -3,7 +3,11 @@ import 'package:adaptive_ad_banner/adaptive_ad_banner.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:prawo_pracy/functions/memory.dart';
+import 'package:prawo_pracy/views/view_photo.dart';
 import '../main.dart';
+
+List<String> paths = [];
+String currentPath = '';
 
 class Notebook extends StatefulWidget {
   const Notebook({super.key});
@@ -61,7 +65,11 @@ class _NotebookState extends State<Notebook> {
                             setState(() {
                               saved.remove(row);
                             });
-                            if(row['path']!=null) {File(row['path']).delete();}
+                            if (row['paths'] != null) {
+                              for (var image in row['paths']) {
+                                File(image).delete();
+                              }
+                            }
                             Memory().saveData(saved);
                           },
                           style: ElevatedButton.styleFrom(
@@ -74,20 +82,32 @@ class _NotebookState extends State<Notebook> {
                           ),
                           child: Icon(Icons.delete)),
                       ElevatedButton(
-                          onPressed: row['path']==null
-                              ? () async {
+                          onPressed: () async {
                             try {
-                              row['path'] = await Memory()
-                                  .savePhoto(Photo.fromCamera)
-                                  .whenComplete(() {
-                                setState(() {
-                                  Memory().saveData(saved);
-                                });
-                              });
+                              if (row['paths'] == null) {
+                                row['paths'] = [];
+                                row['paths'].add(
+                                    await Memory().savePhoto(
+                                        Photo.fromCamera).whenComplete(() {
+                                      setState(() {
+                                        Memory().saveData(saved);
+                                      });
+                                    })
+                                );
+                              } else {
+                                row['paths'].add(
+                                    await Memory().savePhoto(
+                                        Photo.fromCamera).whenComplete(() {
+                                      setState(() {
+                                        Memory().saveData(saved);
+                                      });
+                                    })
+                                );
+                              }
                             } catch (e) {
                               return;
                             }
-                          } : null,
+                          },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.blue.withAlpha(150),
                             elevation: 10,
@@ -98,20 +118,32 @@ class _NotebookState extends State<Notebook> {
                           ),
                           child: Icon(Icons.camera_alt)),
                       ElevatedButton(
-                          onPressed: row['path']==null
-                              ? () async {
+                          onPressed: () async {
                             try {
-                              row['path'] = await Memory()
-                                  .savePhoto(Photo.fromGallery)
-                                  .whenComplete(() {
-                                setState(() {
-                                  Memory().saveData(saved);
-                                });
-                              });
+                              if (row['paths'] == null) {
+                                row['paths'] = [];
+                                row['paths'].add(
+                                    await Memory().savePhoto(
+                                        Photo.fromGallery).whenComplete(() {
+                                      setState(() {
+                                        Memory().saveData(saved);
+                                      });
+                                    })
+                                );
+                              } else {
+                                row['paths'].add(
+                                    await Memory().savePhoto(
+                                        Photo.fromGallery).whenComplete(() {
+                                      setState(() {
+                                        Memory().saveData(saved);
+                                      });
+                                    })
+                                );
+                              }
                             } catch (e) {
                               return;
                             }
-                          } : null,
+                          },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.blue.withAlpha(150),
                             elevation: 10,
@@ -122,15 +154,33 @@ class _NotebookState extends State<Notebook> {
                           ),
                           child: Icon(Icons.add_photo_alternate)),
                       ElevatedButton(
-                          onPressed: row['path']!=null ? () {
+                          onPressed: row['paths']!=null ? () {
                             ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                     backgroundColor: Colors.blue.withAlpha(100),
                                     duration: 20.seconds,
                                     elevation: 10,
                                     behavior: SnackBarBehavior.floating,
-                                    content: Center(child: Image.file(
-                                        File(row['path']), width: 200))));
+                                    content: Center(child: Wrap(
+                                      runSpacing: 10,
+                                      children: [
+                                        for(var image in row['paths'])
+                                          MaterialButton(
+                                              splashColor: Colors.transparent,
+                                              highlightColor: Colors
+                                                  .transparent,
+                                              onPressed: () {
+                                                currentPath = image;
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            ViewPhoto()));
+                                              },
+                                              child: Image.file(
+                                                  File(image), width: 100))
+                                      ],
+                                    ))));
                           } : null,
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.blue.withAlpha(150),
@@ -143,6 +193,7 @@ class _NotebookState extends State<Notebook> {
                           child: Icon(Icons.attachment)),
                 ])
                     : SizedBox.shrink(),
+                SizedBox.shrink()
           ])
       ]),
     );
