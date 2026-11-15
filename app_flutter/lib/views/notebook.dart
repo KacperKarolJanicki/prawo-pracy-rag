@@ -154,7 +154,7 @@ class _NotebookState extends State<Notebook> {
                           ),
                           child: Icon(Icons.add_photo_alternate)),
                       ElevatedButton(
-                          onPressed: row['paths']!=null ? () {
+                          onPressed: row['paths']!=null && row['paths'].isNotEmpty ? () {
                             ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                     backgroundColor: Colors.blue.withAlpha(100),
