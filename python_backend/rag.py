@@ -37,7 +37,7 @@ class RetrievalAugmentedGeneration:
             loader = PyPDFLoader(file_path=self.pdf_path)
             docs = loader.load()
         
-        text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=400)
+        text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=800)
         chunks = text_splitter.split_documents(documents=docs)
 
         QdrantVectorStore.from_documents(
@@ -62,7 +62,7 @@ class RetrievalAugmentedGeneration:
             url=os.getenv("QDRANT_DATABASE"))
         
         llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.0)
-        retriever = vector_store.as_retriever(search_kwargs={"k": 5})
+        retriever = vector_store.as_retriever(search_kwargs={"k": 12})
         prompt = ChatPromptTemplate.from_template(self._load_prompt("prompt_1.txt"))
         
         rag_chain = ({"context": retriever, "question": RunnablePassthrough()} | prompt | llm)
