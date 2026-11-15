@@ -37,7 +37,7 @@ class RetrievalAugmentedGeneration:
             loader = PyPDFLoader(file_path=self.pdf_path)
             docs = loader.load()
         
-        text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=800)
+        text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=500)
         chunks = text_splitter.split_documents(documents=docs)
 
         QdrantVectorStore.from_documents(
