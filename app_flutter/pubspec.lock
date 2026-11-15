@@ -4,10 +4,9 @@ packages:
   adaptive_ad_banner:
     dependency: "direct main"
     description:
-      name: adaptive_ad_banner
-      sha256: "61dca215192636ab78f2d02840dc1441fe1eb1644045b567b82e29e3474e814e"
-      url: "https://pub.dev"
-    source: hosted
+      path: "C:/flutter_projects/adaptive_ad_banner"
+      relative: false
+    source: path
     version: "0.0.2"
   args:
     dependency: transitive

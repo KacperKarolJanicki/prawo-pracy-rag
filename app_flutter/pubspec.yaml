@@ -37,8 +37,9 @@ dependencies:
   flutter_animate: ^4.5.2
   package_info_plus: ^10.2.2
   path_provider: ^2.1.6
-  adaptive_ad_banner: ^0.0.2
   image_picker: ^1.2.4
+  adaptive_ad_banner:
+    path: C:/flutter_projects/adaptive_ad_banner
   backend_connection:
     path: C:/my_flutter_libs/backend_connection/
 

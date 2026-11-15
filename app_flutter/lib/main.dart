@@ -15,9 +15,11 @@ final String adUnitId = kDebugMode
     ? 'ca-app-pub-3940256099942544/9214589741'
     : 'ca-app-pub-1681515793958876/2436133552';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await AdaptiveAds.initialize();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
