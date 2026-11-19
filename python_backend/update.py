@@ -5,10 +5,11 @@ from datetime import datetime
 from rag import RetrievalAugmentedGeneration
 from qdrant_client.http.exceptions import UnexpectedResponse
 
+labour_law = RetrievalAugmentedGeneration("labour_law")
 
 def update():
     url = "https://api.sejm.gov.pl/eli/acts/DU/1974/volumes/24"
-    last_change = datetime.fromisoformat("2024-10-14T09:58:16")
+    last_change = datetime.fromisoformat("2026-10-14T09:58:16")
 
     while True:
         print("[UPDATE MANAGER]: Check for law update...", flush=True)
@@ -17,11 +18,13 @@ def update():
             response = requests.get(url)
             data = response.json()["items"][1]
             change_date = datetime.fromisoformat(data["changeDate"])
+            seconds = random.randint(43200, 86400)
 
             if last_change < change_date:
                 print(
                     "[UPDATE MANAGER]: Found changes! Download new file...", flush=True
                 )
+                
                 update_url = "https://isap.sejm.gov.pl/isap.nsf/download.xsp/WDU19740240141/U/D19740141Lj.pdf"
                 download_file = requests.get(
                     update_url,
@@ -33,10 +36,23 @@ def update():
                         "Connection": "keep-alive",
                     },
                 )
+                
                 with open("D19740141Lj.pdf", mode="wb") as file:
                     file.write(download_file.content)
-                RetrievalAugmentedGeneration("labour_law").update()
-                last_change = change_date
+
+                update_failed = labour_law.update()
+
+                if update_failed == False:
+                    last_change = change_date
+                    
+                    with open("D19740141Lj.pdf", mode="rb") as f1:
+                        main_pdf = f1.read()
+
+                    with open("D19740141Lj_Backup.pdf", mode="wb") as f2:
+                        f2.write(main_pdf)
+                else:
+                    seconds = random.randint(3600, 3800)
+                    print(f"[UPDATE MANAGER]: Try to update again in {seconds} seconds", flush=True)
             else:
                 print("[UPDATE MANAGER]: Don't need to update", flush=True)
         except UnexpectedResponse as e:
@@ -46,4 +62,4 @@ def update():
                 raise e
         except Exception as e:
             print(f"Błąd pobierania:\n{e}", flush=True)
-        time.sleep(random.randint(43200, 86400))
+        time.sleep(seconds)

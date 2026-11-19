@@ -53,6 +53,7 @@ class RetrievalAugmentedGeneration:
             print("[UPDATE MANAGER]: File loaded from bakcup.", flush=True)
         else:
             print("[UPDATE MANAGER]: File updated.", flush=True)
+        return backup
         
     def run(self, user_input):
         vector_store = QdrantVectorStore.from_existing_collection(
