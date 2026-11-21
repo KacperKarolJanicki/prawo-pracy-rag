@@ -1,13 +1,11 @@
 import 'dart:io';
 import 'package:adaptive_ad_banner/adaptive_ad_banner.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:prawo_pracy/functions/memory.dart';
-import 'package:prawo_pracy/views/view_photo.dart';
+import 'package:prawo_pracy/views/photo_gallery.dart';
 import '../main.dart';
 
-List<String> paths = [];
-String currentPath = '';
+List<dynamic> paths = [];
 
 class Notebook extends StatefulWidget {
   const Notebook({super.key});
@@ -154,33 +152,38 @@ class _NotebookState extends State<Notebook> {
                           ),
                           child: Icon(Icons.add_photo_alternate)),
                       ElevatedButton(
-                          onPressed: row['paths']!=null ? () {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                    backgroundColor: Colors.blue.withAlpha(100),
-                                    duration: 20.seconds,
-                                    elevation: 10,
-                                    behavior: SnackBarBehavior.floating,
-                                    content: Center(child: Wrap(
-                                      runSpacing: 10,
-                                      children: [
-                                        for(var image in row['paths'])
-                                          MaterialButton(
-                                              splashColor: Colors.transparent,
-                                              highlightColor: Colors
-                                                  .transparent,
-                                              onPressed: () {
-                                                currentPath = image;
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            ViewPhoto()));
-                                              },
-                                              child: Image.file(
-                                                  File(image), width: 100))
-                                      ],
-                                    ))));
+                          onPressed: row['paths']!=null && row['paths'].isNotEmpty ? () {
+                            // ScaffoldMessenger.of(context).showSnackBar(
+                            //     SnackBar(
+                            //         backgroundColor: Colors.blue.withAlpha(100),
+                            //         duration: 20.seconds,
+                            //         elevation: 10,
+                            //         behavior: SnackBarBehavior.floating,
+                            //         content: Center(child: Wrap(
+                            //           runSpacing: 10,
+                            //           children: [
+                            //             for(var image in row['paths'])
+                            //               MaterialButton(
+                            //                   splashColor: Colors.transparent,
+                            //                   highlightColor: Colors
+                            //                       .transparent,
+                            //                   onPressed: () {
+                            //                     currentPath = image;
+                            //                     Navigator.push(
+                            //                         context,
+                            //                         MaterialPageRoute(
+                            //                             builder: (context) =>
+                            //                                 ViewPhoto()));
+                            //                   },
+                            //                   child: Image.file(
+                            //                       File(image), width: 100))
+                            //           ],
+                            //         ))));
+                            paths = row['paths'];
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => PhotoGallery()));
                           } : null,
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.blue.withAlpha(150),
